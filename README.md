@@ -46,6 +46,20 @@ docker-compose exec app php artisan serve --host=0.0.0.0 --port=8000
 ```
 Your local server will be available at http://127.0.0.1:8000
 
+## Testing 
+
+To run the built-in tests, run the command
+
+```sh
+#Local
+php artisan test 
+```
+
+```sh
+#Docker
+docker-compose exec app php artisan test 
+```
+
 
 ## Troubleshooting 
 
@@ -53,4 +67,20 @@ If you encounter problems with dependencies after running the container, run the
 
 ```sh
 docker-compose exec app composer dump-autoload
+```
+
+If you receive an error:
+
+> ERROR Command "test" is not defined. Did you mean one of these?
+
+Run command:
+
+```sh
+#Local
+composer require nunomaduro/collision
+```
+
+```sh
+#Docker
+docker-compose exec app composer require nunomaduro/collision 
 ```
