@@ -6,6 +6,7 @@ To start you need clone repo.
 Next step make .env file. For reference use .env.example on root directory.
 To final step run commands:
 ```sh
+composer install
 php artisan migrate
 php artisan db:seed --class=BooksTableSeeder
 ```
