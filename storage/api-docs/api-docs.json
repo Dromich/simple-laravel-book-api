@@ -1,0 +1,400 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Simple Book API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/books": {
+            "get": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "List all books",
+                "operationId": "getBooks",
+                "responses": {
+                    "200": {
+                        "description": "A paginated list of books",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "required": [
+                                                    "title",
+                                                    "publisher",
+                                                    "author",
+                                                    "genre",
+                                                    "publication",
+                                                    "word_count",
+                                                    "price"
+                                                ],
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Book ID",
+                                                        "type": "integer",
+                                                        "format": "int64"
+                                                    },
+                                                    "title": {
+                                                        "description": "Title of the book",
+                                                        "type": "string"
+                                                    },
+                                                    "publisher": {
+                                                        "description": "Publisher of the book",
+                                                        "type": "string"
+                                                    },
+                                                    "author": {
+                                                        "description": "Author of the book",
+                                                        "type": "string"
+                                                    },
+                                                    "genre": {
+                                                        "description": "Genre of the book",
+                                                        "type": "string"
+                                                    },
+                                                    "publication": {
+                                                        "description": "Publication date of the book",
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "word_count": {
+                                                        "description": "Word count of the book",
+                                                        "type": "integer"
+                                                    },
+                                                    "price": {
+                                                        "description": "Price of the book",
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "total": {
+                                                    "description": "Total number of items",
+                                                    "type": "integer"
+                                                },
+                                                "count": {
+                                                    "description": "Number of items per page",
+                                                    "type": "integer"
+                                                },
+                                                "per_page": {
+                                                    "description": "Number of items shown per page",
+                                                    "type": "integer"
+                                                },
+                                                "current_page": {
+                                                    "description": "Current page number",
+                                                    "type": "integer"
+                                                },
+                                                "total_pages": {
+                                                    "description": "Total number of pages",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "description": "Link to the first page",
+                                                    "type": "string"
+                                                },
+                                                "last": {
+                                                    "description": "Link to the last page",
+                                                    "type": "string"
+                                                },
+                                                "prev": {
+                                                    "description": "Link to the previous page",
+                                                    "type": "string"
+                                                },
+                                                "next": {
+                                                    "description": "Link to the next page",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No books found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Store a new book",
+                "operationId": "storeBook",
+                "requestBody": {
+                    "description": "Provide book data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "publisher",
+                                    "author",
+                                    "genre",
+                                    "publication",
+                                    "word_count",
+                                    "price"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Sample Book Title"
+                                    },
+                                    "publisher": {
+                                        "type": "string",
+                                        "example": "Sample Publisher"
+                                    },
+                                    "author": {
+                                        "type": "string",
+                                        "example": "Author Name"
+                                    },
+                                    "genre": {
+                                        "type": "string",
+                                        "example": "Fiction"
+                                    },
+                                    "publication": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-01-01"
+                                    },
+                                    "word_count": {
+                                        "type": "integer",
+                                        "example": 12345
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 19.989999999999998436805981327779591083526611328125
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Book successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Book"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/api/books/{id}": {
+            "get": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Get a single book",
+                "operationId": "getBook",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the book to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Book"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Book not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Update an existing book",
+                "operationId": "updateBook",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the book to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated book data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Updated Book Title"
+                                    },
+                                    "publisher": {
+                                        "type": "string",
+                                        "example": "Updated Publisher"
+                                    },
+                                    "author": {
+                                        "type": "string",
+                                        "example": "Updated Author Name"
+                                    },
+                                    "genre": {
+                                        "type": "string",
+                                        "example": "Updated Genre"
+                                    },
+                                    "publication": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-01-02"
+                                    },
+                                    "word_count": {
+                                        "type": "integer",
+                                        "example": 12346
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 20.989999999999998436805981327779591083526611328125
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Book updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Book"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Book not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Delete a book",
+                "operationId": "deleteBook",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the book to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Book deleted successfully"
+                    },
+                    "404": {
+                        "description": "Book not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Book": {
+                "required": [
+                    "title",
+                    "publisher",
+                    "author",
+                    "genre",
+                    "publication",
+                    "word_count",
+                    "price"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Book ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "description": "Title of the book",
+                        "type": "string"
+                    },
+                    "publisher": {
+                        "description": "Publisher of the book",
+                        "type": "string"
+                    },
+                    "author": {
+                        "description": "Author of the book",
+                        "type": "string"
+                    },
+                    "genre": {
+                        "description": "Genre of the book",
+                        "type": "string"
+                    },
+                    "publication": {
+                        "description": "Publication date of the book",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "word_count": {
+                        "description": "Word count of the book",
+                        "type": "integer"
+                    },
+                    "price": {
+                        "description": "Price of the book",
+                        "type": "number",
+                        "format": "float"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}

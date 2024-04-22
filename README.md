@@ -46,6 +46,21 @@ docker-compose exec app php artisan serve --host=0.0.0.0 --port=8000
 ```
 Your local server will be available at http://127.0.0.1:8000
 
+## Documentation
+The project contains documentation, it is available at http://127.0.0.1:8000/api/documentation.
+
+> IIf you change the code, or make changes to the controller or model, you must regenerate the documentation file. To do this, run the command
+
+```sh
+#Local
+php artisan l5-swagger:generate
+```
+
+```sh
+#Docker
+docker-compose exec app php artisan l5-swagger:generate
+```
+
 ## Testing 
 
 To run the built-in tests, run the command
